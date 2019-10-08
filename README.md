@@ -16,7 +16,8 @@ usage: MethByBin.py [-h] --featCoord tab --feature str --sample str
                     [--max_depth INT] [-flanks] [--fl_length INT]
                     [--bin_fl INT]
 
-Filter fasta file with a list of IDs (one perline)
+Get methylation frequencies per bin for a given genomic feature (and flanking
+regions)
 
 optional arguments:
   -h, --help       show this help message and exit
