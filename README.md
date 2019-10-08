@@ -16,6 +16,7 @@ usage: MethByBin.py [-h] --featCoord tab --feature str --sample fasta
 
 Filter fasta file with a list of IDs (one perline)
 
+```
 optional arguments:
   -h, --help       show this help message and exit
   --featCoord tab  [REQUIRED] text file containing the coordinates of the
@@ -39,12 +40,13 @@ optional arguments:
   --bin_fl INT     if flanks, the flanking regions will be divided in this
                    many bins. Default 100.
 
+```
 
 The output of this script will be a methylation report by bin, for all samples, in the corresponding format:
 <file>	<sample>	<feature>	<bin>	<C_number>	<T_number>	<methylation_level>
   
 This output is then used as input in MethByBin_Plot.R to plot the data:
-
+```
 Usage: Rscript MethByBin_Plot.R --input <file1.tab,file2.tab,...> --nbin <INT> --label <lab1,lab2,...> 
                [--output <outFileName>] [--flank --nbin_flank <INT>] [--width] [--height] 
 
@@ -59,13 +61,7 @@ Optional arguments:
   --nbin_flank  [required if --flank] number of bins of flanking region 
   --width       figure width in cm, default 15 
   --height      figure height in cm, default 10 
+```
 
-
-python MethByBin.py --featCoord genomeSequence-transcriptGFFCoord.tab --sample listSampleBGZgiles.txt --feature transcript --out methylation_record_gene_flank_bin20_200.txt -flanks --bin_fl 200 --bin 20
-
-#or using default parameters
-
-python MethByBin.py --featCoord genomeSequence-transcriptGFFCoord.tab --sample listSampleBGZgiles.txt --feature transcript --out methylation_record_gene_flank.txt -flanks
-
-#or if flanks are nor needed, e.g. exons
-python MethByBin.py --featCoord genomeSequence-exonUniqueGFFCoord.tab --sample listSampleBGZgiles.txt --feature exon --out methylation_record_exon.txt
+If methylation report includes flanking regions, option *--flank* should be used together with *--nbin_flank <INT>*.
+  Bin number in *--nbin* (and *nbin_flank*) should match the number of bins considered for MethByBin.py. 
