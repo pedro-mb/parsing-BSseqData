@@ -7,7 +7,7 @@ This adaptation was created to generate similar metaplots, for feature and falnk
 
 MethByBin.py (python2.7) takes as input: 
 - the genome feature coordinates (use gff2tab.pl https://github.com/gpertea/gscripts/blob/master/gff2tab.pl ) 
-- a .txt file containing the path to each Genome-wide cytosine methylation report (from Bismark) and the corresponding sample name, separated by tab and one entry per line: e.g. <path/to/file.bgz> <sampleName>
+- a .txt file containing the path to each Genome-wide cytosine methylation report (from Bismark) and the corresponding sample name, separated by tab and one entry per line: e.g. \<path/to/file.bgz> \<sampleName>
 - REQUIRES tabix and argparse
 
 ```
@@ -45,7 +45,8 @@ optional arguments:
 ```
 
 The output of this script will be a methylation report by bin, for all samples, in the corresponding format:
-<file>	<sample>	<feature>	<bin>	<C_number>	<T_number>	<methylation_level>
+
+\<file>	\<sample>	\<feature>	\<bin>	\<C_number>	\<T_number>	\<methylation_level>
   
 This output is then used as input in MethByBin_Plot.R to plot the data (requires ggplot2 package):
 ```
