@@ -45,7 +45,7 @@ optional arguments:
 The output of this script will be a methylation report by bin, for all samples, in the corresponding format:
 <file>	<sample>	<feature>	<bin>	<C_number>	<T_number>	<methylation_level>
   
-This output is then used as input in MethByBin_Plot.R to plot the data:
+This output is then used as input in MethByBin_Plot.R to plot the data (requires ggplot2 package):
 ```
 Usage: Rscript MethByBin_Plot.R --input <file1.tab,file2.tab,...> --nbin <INT> --label <lab1,lab2,...> 
                [--output <outFileName>] [--flank --nbin_flank <INT>] [--width] [--height] 
