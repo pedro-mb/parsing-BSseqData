@@ -5,18 +5,19 @@ This module includes python script and an R script that result from an adaptatio
 This adaptation was created to generate similar metaplots, for feature and falnking regions, but also includes the option of ploting several features at in the same metaplot (e.g. promoter, exon, intron and intergenic regions).
 
 
-MethByBin.py takes as input: 
+MethByBin.py (python2.7) takes as input: 
 - the genome feature coordinates (use gff2tab.pl https://github.com/gpertea/gscripts/blob/master/gff2tab.pl ) 
 - a .txt file containing the path to each Genome-wide cytosine methylation report (from Bismark) and the corresponding sample name, separated by tab and one entry per line: e.g. <path/to/file.bgz> <sampleName>
+- REQUIRES tabix and argparse
 
-usage: MethByBin.py [-h] --featCoord tab --feature str --sample fasta
+```
+usage: MethByBin.py [-h] --featCoord tab --feature str --sample str
                     [--bin INT] [--out STR] [--min_depth INT]
                     [--max_depth INT] [-flanks] [--fl_length INT]
                     [--bin_fl INT]
 
 Filter fasta file with a list of IDs (one perline)
 
-```
 optional arguments:
   -h, --help       show this help message and exit
   --featCoord tab  [REQUIRED] text file containing the coordinates of the
@@ -25,7 +26,7 @@ optional arguments:
                    of gff2tab.pl)
   --feature str    name of the feature being considered. e.g. transcript,
                    exon, intron, ...
-  --sample fasta   [REQUIRED] list of files and corresponding sample names as:
+  --sample str   [REQUIRED] list of files and corresponding sample names as:
                    <path/to/file.bgz> <sampleName>
   --bin INT        the feature will be divided in this many bins. If flanks =
                    False, features with size < bin number will not be
