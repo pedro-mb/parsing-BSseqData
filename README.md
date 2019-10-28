@@ -11,23 +11,30 @@ MethByBin.py (python2.7) takes as input:
 - REQUIRES tabix and argparse
 
 ```
-usage: MethByBin.py [-h] --featCoord tab --feature str --sample str
-                    [--bin INT] [--out STR] [--min_depth INT]
+usage: MethByBin.py [-h] --featCoord str [-listCoord] --feature str --sample
+                    str [--bin INT] [--out STR] [--min_depth INT]
                     [--max_depth INT] [-flanks] [--fl_length INT]
                     [--bin_fl INT]
+
 
 Get methylation frequencies per bin for a given genomic feature (and flanking
 regions)
 
 optional arguments:
   -h, --help       show this help message and exit
-  --featCoord tab  [REQUIRED] text file containing the coordinates of the
-                   feature to be considered in the following format <chr>
-                   <feature> <stt> <end> <strand> <id> <product> (e.g. output
-                   of gff2tab.pl)
+  --featCoord str  [REQUIRED] file name, or list of paths to files (one per
+                   line),containing the coordinates to the feature to be
+                   considered. - File containing a list of paths (use argument
+                   -listCoord) should have the format: <path> <sampleID>-
+                   File(s) with coordinates should have the following format
+                   <chr> <feature> <stt> <end> <strand> <id> <product> (e.g.
+                   output of gff2tab.pl)
+  -listCoord       Use this argument if --featCoord contains a list of paths
+                   for coordinates. May be usefull when different groups of
+                   the same features
   --feature str    name of the feature being considered. e.g. transcript,
                    exon, intron, ...
-  --sample str   [REQUIRED] list of files and corresponding sample names as:
+  --sample str     [REQUIRED] list of files and corresponding sample names as:
                    <path/to/file.bgz> <sampleName>
   --bin INT        the feature will be divided in this many bins. If flanks =
                    False, features with size < bin number will not be
@@ -42,11 +49,12 @@ optional arguments:
   --bin_fl INT     if flanks, the flanking regions will be divided in this
                    many bins. Default 100.
 
+
 ```
 
 The output of this script will be a methylation report by bin, for all samples, in the corresponding format:
 
-\<file>	\<sample>	\<feature>	\<bin>	\<C_number>	\<T_number>	\<methylation_level>
+\<file>	\<sample>	\<feature> \<coordID>	\<bin>	\<C_number>	\<T_number>	\<methylation_level>
   
 This output is then used as input in MethByBin_Plot.R to plot the data (requires ggplot2 package):
 ```
@@ -57,6 +65,7 @@ Required arguments:
   --input       list of input files separated by ',' and no space \n
   --nbin        number of bins to be considered for feature 
   --label       list of labels of thr input files separated by ',' and no space
+  --group       select group to plot means. Options: 'sample' or 'coord'\n
 
 Optional arguments:
   --output      default 'meth_output' 
