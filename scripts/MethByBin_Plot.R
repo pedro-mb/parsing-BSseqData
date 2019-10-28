@@ -3,11 +3,6 @@
 library(ggplot2)
 
 
-# Rscript test_rscript.R --input ../methylation_record_gene_flank_bin20_binfl100.txt 
-#   --label gene --nbin 20 --output CG_meth_gene60_flank60 --flank --nbin_flank 100
-
-# Rscript test_rscript.R --input ../methylation_record_promoter2k_bin20.txt,../methylation_record_exon_bin20.txt,../methylation_record_intron_bin20.txt 
-#   --label promoter,exon,intron --nbin 20 --output CG_meth_byFeature_nbin20
 
 
 main <- function() {
