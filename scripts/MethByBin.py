@@ -169,7 +169,7 @@ def main():
                              '<chr>\t<feature>\t<stt>\t<end>\t<strand>\t<id>\t<product>\n '
                              '(e.g. output of gff2tab.pl)')
     parser.add_argument('-listCoord',dest='listCoord', action='store_true',
-                        help= 'Use this argument if a --featCoord contains a list of paths for coordinates,\n')
+                        help= 'Use this argument if --featCoord contains a list of paths for coordinates. May be usefull when different groups of the same features \n')
     parser.add_argument('--feature', required=True, metavar='str', type=str,
                         help='name of the feature being considered. e.g. transcript, exon, intron, ... ')
     parser.add_argument('--sample', required=True, metavar='str',

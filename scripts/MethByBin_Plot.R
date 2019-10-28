@@ -17,6 +17,7 @@ main <- function() {
   fig_height = 10 
   fig_width = 15
   lim <- 0
+  #grouping <- "sample"
   
   for(i in 1:length(args)){
     if(args[i] == "--help"){
