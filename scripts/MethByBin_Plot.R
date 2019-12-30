@@ -3,6 +3,11 @@
 library(ggplot2)
 
 
+# Rscript test_rscript.R --input ../methylation_record_gene_flank_bin20_binfl100.txt 
+#   --label gene --nbin 20 --output CG_meth_gene60_flank60 --flank --nbin_flank 100
+
+# Rscript test_rscript.R --input ../methylation_record_promoter2k_bin20.txt,../methylation_record_exon_bin20.txt,../methylation_record_intron_bin20.txt 
+#   --label promoter,exon,intron --nbin 20 --output CG_meth_byFeature_nbin20
 
 
 main <- function() {
@@ -21,7 +26,7 @@ main <- function() {
 "Required arguments: \n --input \t list of input files separated by ',' and no space\n --nbin \t number of bins to be considered for feature \n --label \t list of labels of thr input files separated by ',' and no space \n",
 "Optional arguments: \n --output \t default 'meth_output' \n --flank \t if flanking regions are to be considered \n --nbin_flank \t [required if --flank] number of bins of flanking region \n", 
 "--width \t figure width in cm, default 15 \n --height \t figure height in cm, default 10 \n --ylim \t upper limit of y axis. Default ajusted according to max values \n",
-"--group \t select group do plot. options: 'sample' or 'coord'\n")
+"--group \t select group do plot. options: 'sample'[default] or 'coord'\n")
     }
     if(args[i] == "--input"){
       meth <- args[i+1]
