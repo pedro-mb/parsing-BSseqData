@@ -2,7 +2,7 @@
 
 This module includes python script and an R script that result from an adaptation of MethOverRegion module from ViewBS (Huang X et al. 2018. Bioinformatics), to generate metaplots for methylation frequency over given genomic features, normalized for a given bin length.
 
-This adaptation was created to generate similar metaplots, for feature and falnking regions, but also includes the option of ploting several features at in the same metaplot (e.g. promoter, exon, intron and intergenic regions).
+This adaptation was created to generate similar metaplots, for feature and flanking regions, but also includes the option of ploting several features at in the same metaplot (e.g. promoter, exon, intron and intergenic regions).
 
 
 MethByBin.py (python2.7) takes as input: 
@@ -62,10 +62,10 @@ Usage: Rscript MethByBin_Plot.R --input <file1.tab,file2.tab,...> --nbin <INT> -
                [--output <outFileName>] [--flank --nbin_flank <INT>] [--width] [--height] 
 
 Required arguments: 
-  --input       list of input files separated by ',' and no space \n
+  --input       list of input files separated by ',' and no space
   --nbin        number of bins to be considered for feature 
   --label       list of labels of thr input files separated by ',' and no space
-  --group       select group to plot means. Options: 'sample' or 'coord'\n
+  --group       select group to plot means. Options: 'sample' or 'coord'
 
 Optional arguments:
   --output      default 'meth_output' 
