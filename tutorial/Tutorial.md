@@ -83,9 +83,11 @@ for i in $(ls -1 */*.txt.bgz); do echo $i; tabix -p vcf $i; done
 
 <br/>
 
-## Create a text file containing all BGZ files (with full PATH) and the corresponding sample group (in the same line separated by tab): 
+## Create a text file containing all BGZ files 
 
-For example:
+Add full PATH and the corresponding sample group, in the same line separated by tab: 
+
+For example (listSampleBGZgiles.txt):
 
   path/to/BGZfiles/tissueA_rep1.bgz &nbsp; tissueA <br/>
   path/to/BGZfiles/tissueA_rep2.bgz &nbsp; tissueA <br/>
