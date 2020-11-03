@@ -1,14 +1,5 @@
----
-title: "Get methylation frequency"
-output:
-  html_document:
-    df_print: paged
----
-
-<br/>
 
 General workflow for whole genome methylation analysis:
-<br/>
 
 **- First step, get the coordinates for the feature of interest, depending on the plots to generate: **
 
