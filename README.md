@@ -11,11 +11,10 @@ MethByBin.py (python2.7) takes as input:
 - REQUIRES tabix and argparse
 
 ```
-usage: MethByBin.py [-h] --featCoord str [-listCoord] --feature str --sample
-                    str [--bin INT] [--out STR] [--min_depth INT]
-                    [--max_depth INT] [-flanks] [--fl_length INT]
-                    [--bin_fl INT]
-
+usage: MethByBin_new.py [-h] --featCoord str [-listCoord] --feature str
+                        --sample str [--bin INT] [--context STR] [--out STR]
+                        [--min_depth INT] [--max_depth INT] [-flanks]
+                        [--fl_length INT] [--bin_fl INT]
 
 Get methylation frequencies per bin for a given genomic feature (and flanking
 regions)
@@ -39,6 +38,7 @@ optional arguments:
   --bin INT        the feature will be divided in this many bins. If flanks =
                    False, features with size < bin number will not be
                    considered. Default 60.
+  --context STR    Cytosine methylation context: CG (default), CHG or CHH
   --out STR        Output file name
   --min_depth INT  minimum mC base coverage to be considered. Default: 5
   --max_depth INT  maximum mC base coverage to be considered. Default: 1000000
@@ -48,7 +48,6 @@ optional arguments:
                    considered. Default: 2000.
   --bin_fl INT     if flanks, the flanking regions will be divided in this
                    many bins. Default 100.
-
 
 ```
 
