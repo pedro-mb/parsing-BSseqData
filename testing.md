@@ -57,17 +57,19 @@ write.table(coord2, file = "genomeSequence-intergenicGFFcoord_edit.tab", quote =
 
 <br/>
 
-## Convert CpG_report files to .bgz format and create an index file: 
+## Convert CX_report files and create an index file: 
 
 
 ```{bash eval=FALSE, include=TRUE}
+
+# if report is in '.gz' format, it needs to be converted to '.bgz' before creating the index with tabix. Use the following command or skip to the next
 
 gunzip -c sample1_bismark_bt2_pe.deduplicated.CpG_report.txt.gz | bgzip  > sample1_bismark_bt2_pe.deduplicated.CpG_report.txt.bgz
 
 tabix -p vcf sample1_bismark_bt2_pe.deduplicated.CpG_report.txt.bgz
 
 
-# or for multiple files 
+# if you have multiple files 
 
 for i in $(ls -1 */*.txt.gz); do prefix=${i%.gz}; echo $prefix; gunzip -c $i | bgzip  > $prefix.bgz; done
 
@@ -128,6 +130,7 @@ Rscript MethByBin_Plot.R --input methylation_record_gene_flank_bin20_binfl100.tx
 
 ```
 ![Example 2](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example2.png)
+
 <br/>
 
 ## Example3: Using a list of different files containing feature coordinates:
