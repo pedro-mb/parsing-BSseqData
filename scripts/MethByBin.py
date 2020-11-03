@@ -6,21 +6,17 @@ import argparse
 
 
 def get_methylation(tb_query, report, sample, stt, end, strand, out_dict, flank, bin_number, bin_number_fl, do_flanks,
-                    max_depth, min_depth, feature, coordID):
+                    max_depth, min_depth, feature, coordID, C_context):
 
     for i in tb_query:
         m_scaf, pos, m_strand, c_n, t_n, m_context, seq = i
         depth = int(t_n) + int(c_n)
-        if min_depth <= depth <= max_depth:
+        if min_depth <= depth <= max_depth and C_context == m_context:
             unit = (int(end) - int(stt) + 1) / (bin_number - 0.01)
             if strand == "+":
                 if int(pos) < stt:
                     fl_dist = stt - int(pos)
-                    #if not do_flanks:
-                    #    print "BUG BUG BUG!!!"
-                    #    keys = 1
-                    #    keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID+ "\t" + str(keys)
-                    if fl_dist == flank:  # elif fl_dist == flank:
+                    if fl_dist == flank:
                         keys = -int(fl_dist / bin_number_fl) + 1
                         keys = report + "\t" + sample + "\t" + "Upstream" + "\t"+ coordID + "\t" + str(keys)
                     else:
@@ -31,11 +27,7 @@ def get_methylation(tb_query, report, sample, stt, end, strand, out_dict, flank,
                     keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID+ "\t" + str(keys)
                 else:
                     fl_dist = int(pos) - end
-                    #if not do_flanks:
-                    #    print "BUG BUG BUG!!!"
-                    #    keys = bin_number
-                    #    keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID + "\t" + str(keys)
-                    if fl_dist == flank: #elif fl_dist == flank:
+                    if fl_dist == flank:
                         keys = int(fl_dist / bin_number_fl) + bin_number - 1
                         keys = report + "\t" + sample + "\t" + "Downstream" + "\t" + coordID + "\t" + str(keys)
                     else:
@@ -45,11 +37,7 @@ def get_methylation(tb_query, report, sample, stt, end, strand, out_dict, flank,
             else:
                 if int(pos) <= stt:
                     fl_dist = stt - int(pos)
-                    #if not do_flanks:
-                    #    print "BUG BUG BUG!!!"
-                    #    keys = bin_number
-                    #    keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID+ "\t" + str(keys)
-                    if fl_dist == flank:  #elif fl_dist == flank:
+                    if fl_dist == flank:
                         keys = int(fl_dist / bin_number_fl) + bin_number - 1
                         keys = report + "\t" + sample + "\t" + "Downstream" + "\t"+ coordID + "\t" + str(keys)
                     else:
@@ -60,10 +48,6 @@ def get_methylation(tb_query, report, sample, stt, end, strand, out_dict, flank,
                     keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID + "\t" + str(keys)
                 else:
                     fl_dist = int(pos) - end
-                    #if not do_flanks:
-                    #    print "BUG BUG BUG!!!"
-                    #    keys = 1
-                    #    keys = report + "\t" + sample + "\t" + feature + "\t"+ coordID + "\t" + str(keys)
                     if fl_dist == flank:     #elif fl_dist == flank:
                         keys = -int(fl_dist / bin_number_fl) + 1
                         keys = report + "\t" + sample + "\t" + "Upstream" + "\t"+ coordID + "\t" + str(keys)
@@ -79,7 +63,7 @@ def get_methylation(tb_query, report, sample, stt, end, strand, out_dict, flank,
 
 
 def screen_coordinates(samplefile, coord, do_flanks, flank, bin_number, bin_number_flank, max_depth, min_depth,
-                       filename, coordID='NA'):
+                       filename, C_context, coordID='NA'):
     meth_outdict = {}
     #outfile = open(filename, "w")
     sample = open(samplefile, "r")
@@ -110,12 +94,8 @@ def screen_coordinates(samplefile, coord, do_flanks, flank, bin_number, bin_numb
                 meth_freq = tbx.querys(query)
                 meth_outdict = get_methylation(meth_freq, sample_dir, sample_id, int(start_c), int(end_c), seq_strand,
                                                meth_outdict, flank, bin_number, bin_number_flank, do_flanks,
-                                               max_depth, min_depth, gen_feature, coordID)
+                                               max_depth, min_depth, gen_feature, coordID, C_context)
             elif int(end_c) - int(start_c) >= bin_number:
-                # do the analysis only for features, with size higher than binNumber
-                #stt_flank = int(start_c) #+ 2
-                #end_flank = int(end_c) #- 2
-
                 query = scaffold + ":" + start_c + "-" + end_c
 
                 meth_freq = tbx.querys(query)
@@ -123,7 +103,7 @@ def screen_coordinates(samplefile, coord, do_flanks, flank, bin_number, bin_numb
                 for i in meth_freq:
                     m_scaf, pos, m_strand, c_n, t_n, m_context, seq = i
                     depth = int(t_n) + int(c_n)
-                    if min_depth <= depth <= max_depth:
+                    if min_depth <= depth <= max_depth and m_context == C_context:
                         unit = (int(end_c) - int(start_c) + 1) / (bin_number - 0.01)
                         if seq_strand == "+":
 
@@ -144,24 +124,19 @@ def screen_coordinates(samplefile, coord, do_flanks, flank, bin_number, bin_numb
                                     meth_outdict[keys][1] += int(t_n)
                                 else:
                                     meth_outdict[keys] = [int(c_n), int(t_n)]
-                #meth_outdict = get_methylation(meth_freq, filename, sample_id, int(start_c), int(end_c), seq_strand,
-                #                               meth_outdict, 0, bin_number, bin_number_flank, do_flanks,
-                #                               max_depth, min_depth, gen_feature)
-        print "\n"
 
-    #filename.write("file\tsample\tfeature\tbin\tC_number\tT_number\tmethylation_level\n")
+        print "\n"
     for entry in sorted(meth_outdict):
         c_num, t_num = meth_outdict[entry]
         meth_freq = float(c_num) / float(c_num + t_num)
         filename.write(entry + "\t" + str(c_num) + "\t" + str(t_num) + "\t" + str(meth_freq) + "\n")
     sample.close()
-    #outfile.close()
 
 
 def main():
     parser = argparse.ArgumentParser(description='Get methylation frequencies per bin for a given genomic feature (and flanking regions)')
     parser.add_argument('--featCoord', required=True, metavar='str',
-                        help='[REQUIRED] file name, or list of paths to files (one per line),' 
+                        help='[REQUIRED] file name, or list of paths to files (one per line),'
                              'containing the coordinates to the feature to be considered. \n'
                              '- File containing a list of paths (use argument -listCoord) should have the format:  \n'
                              '<path>\t<sampleID>'
@@ -179,6 +154,8 @@ def main():
                         help='the feature will be divided in this many bins. '
                              'If flanks = False, features with size < bin number '
                              'will not be considered. Default 60.')
+    parser.add_argument('--context', metavar="STR", type=str, default="CG",
+                        help='Cytosine methylation context: CG (default), CHG or CHH')
     parser.add_argument('--out', metavar='STR', type=str, default="methylation_frequency.txt",
                         help='Output file name')
     parser.add_argument('--min_depth', metavar="INT", type=int, default=5,
@@ -194,8 +171,8 @@ def main():
 
 
     args = parser.parse_args()
-    
-    print args.sample
+
+    #print args.sample
     outfile = open(args.out, "w")
     outfile.write("file\tsample\tfeature\tcoordID\tbin\tC_number\tT_number\tmethylation_level\n")
     coordID = "NA"
@@ -204,16 +181,12 @@ def main():
         for line in coordList:
 	    coordFile, coordID = line.strip().split()
             screen_coordinates(args.sample, [coordFile, args.feature ], args.flanking, args.fl_length, args.bin, args.bin_fl,
-                       args.max_depth, args.min_depth, outfile, coordID)
-            
+                       args.max_depth, args.min_depth, outfile, args.context, coordID)
+
     else:
      screen_coordinates(args.sample, [args.featCoord, args.feature], args.flanking, args.fl_length, args.bin, args.bin_fl,
-                       args.max_depth, args.min_depth, outfile, coordID)
+                       args.max_depth, args.min_depth, outfile, args.context, coordID)
     outfile.close()
 
 if __name__ == "__main__":
     main()
-
-
-
-

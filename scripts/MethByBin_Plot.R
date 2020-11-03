@@ -20,13 +20,15 @@ main <- function() {
   #grouping <- "sample"
   
   for(i in 1:length(args)){
-    if(args[i] == "--help"){
-      cat("USAGE: Rscript MethByBin_Plot.R --input <file1.tab,file2.tab,...> --nbin <INT> --label <lab1,lab2,...>", 
-"[--output <outFileName> --flank --nbin_flank <INT> --width --height] \n",
-"Required arguments: \n --input \t list of input files separated by ',' and no space\n --nbin \t number of bins to be considered for feature \n --label \t list of labels of thr input files separated by ',' and no space \n",
-"Optional arguments: \n --output \t default 'meth_output' \n --flank \t if flanking regions are to be considered \n --nbin_flank \t [required if --flank] number of bins of flanking region \n", 
-"--width \t figure width in cm, default 15 \n --height \t figure height in cm, default 10 \n --ylim \t upper limit of y axis. Default ajusted according to max values \n",
-"--group \t select group do plot. options: 'sample'[default] or 'coord'\n")
+    if(args[i] == "--help" | args[i] == "-h"){
+      cat("\n USAGE: Rscript MethByBin_Plot.R --input <file1.tab,file2.tab,...> --nbin <INT> --label <lab1,lab2,...>", 
+"[--output <outFileName> -flank --nbin_flank <INT> --width --height] \n\n",
+"Required arguments: \n --input STR\t list of input files separated by ',' and no space\n --nbin INT\t number of bins to be considered for feature \n --label STR\t list of labels of the input files separated by ',' and no space \n\n",
+"Optional arguments: \n --output STR\t default 'meth_output' \n -flank \t if flanking regions are to be considered \n --nbin_flank INT\t [required if -flank] number of bins of flanking region \n", 
+"--width INT\t figure width in cm, default 15 \n --height INT\t figure height in cm, default 10 \n --ylim INT\t upper limit of y axis. Default ajusted according to max values \n",
+"--group STR\t select group do plot. options: 'sample'[default] or 'coord'\n" ,
+"-cl \t\t plot confidence interval based on replicates, otherwise \n \t\t all replicates will be ploted \n")
+      quit(status=1) 
     }
     if(args[i] == "--input"){
       meth <- args[i+1]
@@ -35,7 +37,7 @@ main <- function() {
         }
     }
     
-    if(args[i] == "--flank") {
+    if(args[i] == "-flank") {
       flanking  <- TRUE
     }
     if(args[i] == "--nbin_flank") {
@@ -66,6 +68,8 @@ main <- function() {
     if(args[i] == "--group"){
       grouping  <- args[i+1]
     }
+    if(args[i] == "-cl"){
+      cl  <- TRUE} else {cl <- FALSE}
     
   }
   #print(lim)
@@ -82,12 +86,19 @@ main <- function() {
   if (grouping == "coord") {
     meth_table$interact <- interaction(meth_table$file, meth_table$coordID)
     p <- ggplot(meth_table, aes(x=bin, y=methylation_level, group=coordID, fill = sample)) +
-      geom_line(aes(group=interact),colour="grey75") +
-      stat_summary(aes(colour=coordID),fun.y = "mean", geom = "line") +
+      #geom_line(aes(group=interact),colour="grey75") +
+      #stat_summary(aes(colour=coordID),fun.y = "mean", geom = "line") +
       expand_limits(y = lim) +
       theme(legend.title=element_blank()) +
-      scale_colour_manual(values = c("#7FCDBB","#1D91C0", "#225EA8", "#081D58")) +
+      scale_colour_manual(values = c("#7FCDBB","#1D91C0", "#225EA8", "#081D58","black")) +
       ylab("Methylation level")
+    if (cl) {
+      p <- p + stat_summary(fun.data = "mean_cl_boot", geom = "ribbon",
+               fill = "grey", alpha = 0.5)
+    } else {
+      p <- p + geom_line(aes(group=interact),colour="grey75")
+    }
+    p <- p + stat_summary(aes(colour=coordID),fun.y = "mean", geom = "line")
     if (flanking) {
       flank1 <- paste( -(min -1)/adjustXaxis, "kb", sep = " ")
       p <- p + scale_x_continuous(breaks=c(min, 1, nbin, max), 
@@ -105,11 +116,18 @@ main <- function() {
     #dev.off()
   } else {
     p <- ggplot(meth_table, aes(x=bin, y=methylation_level, group=sample, fill = sample)) +
-      geom_line(aes(group=file),colour="grey75") +
-      stat_summary(aes(colour=sample),fun.y = "mean", geom = "line") +
+      #geom_line(aes(group=file),colour="grey75") +
+      #stat_summary(aes(colour=sample),fun.y = "mean", geom = "line") +
       expand_limits(y = lim) +
       theme(legend.title=element_blank()) +
       ylab("Methylation level")
+    if (cl) {
+      p <- p + stat_summary(fun.data = "mean_cl_boot", geom = "ribbon",
+               fill = "grey", alpha = 0.5)
+    } else {
+      p <- p + geom_line(aes(group=file),colour="grey75")
+    }
+    p <- p + stat_summary(aes(colour=sample),fun.y = "mean", geom = "line")
     if (flanking) {
       flank1 <- paste( -(min -1)/adjustXaxis, "kb", sep = " ")
       p <- p + scale_x_continuous(breaks=c(min, 1, nbin, max), 
