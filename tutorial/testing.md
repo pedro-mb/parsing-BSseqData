@@ -3,7 +3,7 @@
 
 <br/>
 
-## First step, get the coordinates for the feature of interest, depending on the plots to generate:
+## Get the coordinates for the feature of interest, depending on the plots to generate:
 
 [gff2tab](https://github.com/gpertea/gscripts/blob/master/gff2tab.pl) script can be used to get gene, exon and intron coordinates:
 
