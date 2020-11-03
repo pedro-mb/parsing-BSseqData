@@ -1,6 +1,8 @@
 
 # General workflow for whole genome methylation analysis:
 
+<br/>
+
 ## First step, get the coordinates for the feature of interest, depending on the plots to generate:
 
 [gff2tab](https://github.com/gpertea/gscripts/blob/master/gff2tab.pl) script can be used to get gene, exon and intron coordinates:
@@ -115,7 +117,7 @@ python MethByBin.py --featCoord genomeSequence-exonUniqueGFFCoord.tab --sample l
 
 Rscript MethByBin_Plot.R --input methylation_record_promoter2k_bin20.txt,methylation_record_exon20.txt,methylation_record_intron20.txt --label promoter,exon,intron --nbin 20 --output Example1 --group sample
 ```
-![Example 1](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example1.png)
+![Example 1](https://github.com/pedro-mb/parsing-BSseqData/blob/master/tutorial/Example1.png)
 <br/>
 
 ## Example2: For gene body plot with flanking regions and all tissues/samples:
@@ -129,7 +131,7 @@ python MethByBin.py --featCoord genomeSequence-transcriptGFFCoord.tab --sample l
 Rscript MethByBin_Plot.R --input methylation_record_gene_flank_bin20_binfl100.txt --label gene --nbin 20 --output Example2 --flank --nbin_flank 100 --group sample
 
 ```
-![Example 2](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example2.png)
+![Example 2](https://github.com/pedro-mb/parsing-BSseqData/blob/master/tutorial/Example2.png)
 
 <br/>
 
@@ -164,7 +166,7 @@ python MethByBin.py --featCoord quartil_transcript_coord.txt --sample listTissue
 Rscript MethByBin_Plot.R --input methylation_record_quartile_gene20_flank100.txt --label gene --nbin 20 --output Example3 --flank --nbin_flank 100 --group coord
 ```
 
-![Example 3](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example3.png)
+![Example 3](https://github.com/pedro-mb/parsing-BSseqData/blob/master/tutorial/Example3.png)
 <br/>
 
 MethByBin_Plot.R uses ggplot and the script can be edited to change general display (geom_line(), stat_summary()), ...) or to change line colours.
