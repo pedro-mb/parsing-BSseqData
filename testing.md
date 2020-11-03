@@ -25,7 +25,7 @@ python gff2promoter.py --gff genomeSequence-annot.gff --size 2000 --out genomeSe
 
 ```
 
-![a test] (https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example3.png)
+![a test](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example3.png)
 To get intergenic regions I used Bedtools. 'bedtools complement' requires a gff file only with gene rows and a tab separated file (*scaffoldSizes.tsv*) containing all scaffoldIDs and corresponding size in bp:
 
 For example:
