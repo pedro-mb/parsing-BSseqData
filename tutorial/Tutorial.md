@@ -97,7 +97,7 @@ For example (listSampleBGZgiles.txt):
 
 <br/>
 
-## Example1: For a combined plot with promoter, exon and intron features and all tissues/samples: **
+## Example1: For a combined plot with promoter, exon and intron features and all tissues/samples:
 
 for the *MethByBin.py*, the pytabix module is required [link](https://pypi.org/project/pytabix/) . <br/>
 for the *MethByBin_Plot.R*, ggplot2 is required.
