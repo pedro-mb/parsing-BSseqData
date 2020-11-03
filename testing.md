@@ -1,7 +1,7 @@
 
-General workflow for whole genome methylation analysis:
+# General workflow for whole genome methylation analysis:
 
-**- First step, get the coordinates for the feature of interest, depending on the plots to generate: **
+## First step, get the coordinates for the feature of interest, depending on the plots to generate:
 
 [gff2tab](https://github.com/gpertea/gscripts/blob/master/gff2tab.pl) script can be used to get gene, exon and intron coordinates:
 
@@ -57,7 +57,7 @@ write.table(coord2, file = "genomeSequence-intergenicGFFcoord_edit.tab", quote =
 
 <br/>
 
-**- Convert CpG_report files to .bgz format and create an index file: **
+## Convert CpG_report files to .bgz format and create an index file: 
 
 
 ```{bash eval=FALSE, include=TRUE}
@@ -78,7 +78,8 @@ for i in $(ls -1 */*.txt.bgz); do echo $i; tabix -p vcf $i; done
 ```
 
 <br/>
-**- Create a text file containing all BGZ files (with full PATH) and the corresponding sample group (in the same line separated by tab): **
+
+## Create a text file containing all BGZ files (with full PATH) and the corresponding sample group (in the same line separated by tab): 
 
 For example:
 
@@ -90,7 +91,7 @@ For example:
 
 <br/>
 
-**- Example1: For a combined plot with promoter, exon and intron features and all tissues/samples: **
+## Example1: For a combined plot with promoter, exon and intron features and all tissues/samples: **
 
 for the *MethByBin.py*, the pytabix module is required [link](https://pypi.org/project/pytabix/) . <br/>
 for the *MethByBin_Plot.R*, ggplot2 is required.
@@ -115,7 +116,7 @@ Rscript MethByBin_Plot.R --input methylation_record_promoter2k_bin20.txt,methyla
 ![Example 1](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example1.png)
 <br/>
 
-**- Example2: For gene body plot with flanking regions and all tissues/samples: **
+## Example2: For gene body plot with flanking regions and all tissues/samples:
 
 use the *transcriptGFFCoord.tab* file..The length of the bins can be changed, but they need to be the same in the python and R scripts
 
@@ -129,7 +130,7 @@ Rscript MethByBin_Plot.R --input methylation_record_gene_flank_bin20_binfl100.tx
 ![Example 2](https://github.com/pedro-mb/parsing-BSseqData/blob/master/Example2.png)
 <br/>
 
-**- Example3: Using a list of different files containing feature coordinates: **
+## Example3: Using a list of different files containing feature coordinates:
 
 Generate a plot for the same tissue/sample (including replicates) and different groups of genes. For example, define groups of genes according to their expression level in that tissue (in 4 quartiles: Q4-Highly expressed, Q3-moderatly expressed, Q2-low expressed, Q1-very low expressed/inactive)
 
